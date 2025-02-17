@@ -1,0 +1,53 @@
+---
+title: "ReadMe"
+format: html
+editor: visual
+---
+
+```{r}
+# UCI HAR Dataset - Data Analysis Project
+
+## Overview
+
+This repository contains an analysis of the **Human Activity Recognition Using Smartphones** dataset from the **UCI Machine Learning Repository**. The goal of this project is to demonstrate the ability to clean, process, and analyze a dataset with R, while adhering to the principles of tidy data. The dataset consists of data collected from the accelerometers of the **Samsung Galaxy S smartphone** and contains measurements of various physical activities performed by subjects.
+
+The analysis performed includes:
+- Merging the training and test datasets.
+- Extracting the mean and standard deviation of measurements.
+- Assigning descriptive activity names to the dataset.
+- Labeling variables with descriptive names.
+- Creating a tidy dataset with the average of each variable for each activity and each subject.
+
+## Files in this Repository
+
+- **run_analysis.R**: An R script that performs the data analysis, including merging datasets, extracting relevant variables, renaming activities, labeling the dataset, and creating the tidy dataset.
+- **CodeBook.md**: A detailed explanation of the variables, data, and transformations applied during the analysis.
+- **tidy_data.txt**: The final tidy dataset, containing the average of each variable for each activity and each subject.
+- **README.md**: This file, which provides an overview of the project and how to use the code.
+
+## Steps Performed in `run_analysis.R`
+
+### Merging the Training and Test Datasets
+The training and test datasets were combined into one large dataset, consisting of both measurements and activity labels.
+
+### Extracting Mean and Standard Deviation Measurements
+Only the measurements related to the mean and standard deviation of sensor data were extracted, focusing on relevant features such as:
+- `tBodyAcc-mean-X`
+- `tBodyAcc-std-Y`
+- `fBodyGyro-mean-Z`
+
+### Assigning Descriptive Activity Names
+The activity labels (1-6) were replaced with descriptive names, as defined in the **activity_labels.txt** file.
+
+### Appropriately Labeling the Dataset
+The dataset was labeled with descriptive variable names corresponding to the measurements, such as `tBodyAcc-mean-X` for mean values and `fBodyGyro-std-Z` for standard deviation values.
+
+### Creating the Tidy Dataset
+The final tidy dataset was created by calculating the **mean** of each variable for each **subject** and **activity** combination, resulting in a dataset with 180 rows and 68 columns. This dataset was saved as **tidy_data.txt**.
+
+## How to Use the Code
+
+1. **Clone the Repository**: Clone this repository to your local machine using Git:
+   ```bash
+   git clone https://github.com/your-username/UCI-HAR-Project.git
+```

@@ -1,0 +1,214 @@
+---
+title: "CodeBook"
+format: html
+editor: visual
+---
+
+```{r}
+# CodeBook: UCI HAR Dataset
+
+## Dataset Overview
+
+The UCI HAR Dataset contains data collected from the accelerometers of the Samsung Galaxy S smartphone. The data was gathered to recognize activities using the smartphone's sensors. It includes sensor measurements from 30 subjects performing 6 different activities, and it is used to classify the types of activities performed.
+
+The dataset contains both **training** and **test** data. The activities that were recorded are:
+
+1. WALKING
+2. WALKING_UPSTAIRS
+3. WALKING_DOWNSTAIRS
+4. SITTING
+5. STANDING
+6. LAYING
+
+## Data Files
+
+The dataset consists of the following files:
+
+- **train/X_train.txt**: The training set contains 561 feature measurements for each observation.
+- **train/y_train.txt**: The activity labels (1-6) for each observation in the training set.
+- **train/subject_train.txt**: The subject identifiers (1-30) for each observation in the training set.
+- **test/X_test.txt**: The test set contains 561 feature measurements for each observation.
+- **test/y_test.txt**: The activity labels (1-6) for each observation in the test set.
+- **test/subject_test.txt**: The subject identifiers (1-30) for each observation in the test set.
+- **features.txt**: The names of the 561 features.
+- **activity_labels.txt**: The mapping of activity codes to activity names.
+
+ 
+
+
+## Data Processing Steps
+
+### 1. **Merging the Training and Test Sets**
+
+The training and test sets were combined to create one large dataset. Specifically:
+- The **X_train** and **X_test** datasets were concatenated using `rbind()`.
+- The **y_train** and **y_test** datasets were concatenated to form the combined activity labels (`y`).
+- The **subject_train** and **subject_test** datasets were concatenated to form the combined subject identifiers (`subject`).
+
+### 2. **Extracting Mean and Standard Deviation Measurements**
+
+Out of the 561 feature measurements, we extracted only those related to the **mean** and **standard deviation** of the sensor data. These columns were identified by filtering the feature names based on regular expressions (`grep("-(mean|std)\\(\\)", features)`).
+
+This subset contains measurements like:
+- `tBodyAcc-mean-X`
+- `tBodyAcc-std-Y`
+- `tGravityAcc-mean-Z`
+
+### 3. **Descriptive Activity Names**
+
+The activity labels (1-6) were replaced with descriptive activity names from **activity_labels.txt**:
+- **1** = WALKING
+- **2** = WALKING_UPSTAIRS
+- **3** = WALKING_DOWNSTAIRS
+- **4** = SITTING
+- **5** = STANDING
+- **6** = LAYING
+
+### 4. **Descriptive Variable Names**
+
+The columns in the dataset were renamed using the feature names from **features.txt**. The names represent the type of measurement and the axis it was measured on, such as:
+- `tBodyAcc-mean-X`
+- `tBodyAcc-std-Y`
+- `fBodyGyro-mean-Z`
+
+The prefix `t` indicates the time domain, while `f` indicates the frequency domain.
+
+Variables:
+Subject: An identifier for the subject who performed the activity.
+Activity: The type of activity performed (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING).
+tBodyAcc-mean()-X: Mean of body acceleration signal in X-axis.   
+tBodyAcc-mean()-Y: Mean of body acceleration signal in Y-axis.
+tBodyAcc-mean()-Z: Mean of body acceleration signal in Z-axis.
+tBodyAcc-std()-X: Standard deviation of body acceleration signal in X-axis.
+tBodyAcc-std()-Y: Standard deviation of body acceleration signal in Y-axis.
+tBodyAcc-std()-Z: Standard deviation of body acceleration signal in Z-axis.
+tGravityAcc-mean()-X: Mean of gravity acceleration signal in X-axis.
+tGravityAcc-mean()-Y: Mean of gravity acceleration signal in Y-axis.
+tGravityAcc-mean()-Z: Mean of gravity acceleration signal in Z-axis.
+tGravityAcc-std()-X: Standard deviation of gravity acceleration signal in X-axis.
+tGravityAcc-std()-Y: Standard deviation of gravity acceleration signal in Y-axis.
+tGravityAcc-std()-Z: Standard deviation of gravity acceleration signal in Z-axis.
+tBodyAccJerk-mean()-X: Mean of body acceleration jerk signal in X-axis.
+tBodyAccJerk-mean()-Y: Mean of body acceleration jerk signal in Y-axis.
+tBodyAccJerk-mean()-Z: Mean of body acceleration jerk signal in Z-axis.
+tBodyAccJerk-std()-X: Standard deviation of body acceleration jerk signal in X-axis.
+tBodyAccJerk-std()-Y: Standard deviation of body acceleration jerk signal in Y-axis.
+tBodyAccJerk-std()-Z: Standard deviation of body acceleration jerk signal in Z-axis.
+tBodyGyro-mean()-X: Mean of body gyroscope signal in X-axis.
+tBodyGyro-mean()-Y: Mean of body gyroscope signal in Y-axis.
+tBodyGyro-mean()-Z: Mean of body gyroscope signal in Z-axis.
+tBodyGyro-std()-X: Standard deviation of body gyroscope signal in X-axis.
+tBodyGyro-std()-Y: Standard deviation of body gyroscope signal in Y-axis.
+tBodyGyro-std()-Z: Standard deviation of body gyroscope signal in Z-axis.
+tBodyGyroJerk-mean()-X: Mean of body gyroscope jerk signal in X-axis.
+tBodyGyroJerk-mean()-Y: Mean of body gyroscope jerk signal in Y-axis.
+tBodyGyroJerk-mean()-Z: Mean of body gyroscope jerk signal in Z-axis.
+tBodyGyroJerk-std()-X: Standard deviation of body gyroscope jerk signal in X-axis.
+tBodyGyroJerk-std()-Y: Standard deviation of body gyroscope jerk signal in Y-axis.
+tBodyGyroJerk-std()-Z: Standard deviation of body gyroscope jerk signal in Z-axis.
+tBodyAccMag-mean(): Mean of body acceleration magnitude.
+tBodyAccMag-std(): Standard deviation of body acceleration magnitude.
+tGravityAccMag-mean(): Mean of gravity acceleration magnitude.
+tGravityAccMag-std(): Standard deviation of gravity acceleration magnitude.
+tBodyAccJerkMag-mean(): Mean of body acceleration jerk magnitude.   
+tBodyAccJerkMag-std(): Standard deviation of body acceleration jerk magnitude.
+tBodyGyroMag-mean(): Mean of body gyroscope magnitude.
+tBodyGyroMag-std(): Standard deviation of body gyroscope magnitude.
+tBodyGyroJerkMag-mean(): Mean of body gyroscope jerk magnitude.
+tBodyGyroJerkMag-std(): Standard deviation of body gyroscope jerk magnitude.
+fBodyAcc-mean()-X: Mean of body acceleration signal in X-axis (frequency domain).
+fBodyAcc-mean()-Y: Mean of body acceleration signal in Y-axis (frequency domain).
+fBodyAcc-mean()-Z: Mean of body acceleration signal in Z-axis (frequency domain).
+fBodyAcc-std()-X: Standard deviation of body acceleration signal in X-axis (frequency domain).
+fBodyAcc-std()-Y: Standard deviation of body acceleration signal in Y-axis (frequency domain).
+fBodyAcc-std()-Z: Standard deviation of body acceleration signal in Z-axis (frequency domain).
+fBodyAccJerk-mean()-X: Mean of body acceleration jerk signal in X-axis (frequency domain).
+fBodyAccJerk-mean()-Y: Mean of body acceleration jerk signal in Y-axis (frequency domain).
+fBodyAccJerk-mean()-Z: Mean of body acceleration jerk signal in Z-axis (frequency domain).
+fBodyAccJerk-std()-X: Standard deviation of body acceleration jerk signal in X-axis (frequency domain).
+fBodyAccJerk-std()-Y: Standard deviation of body acceleration jerk signal in Y-axis (frequency domain).
+fBodyAccJerk-std()-Z: Standard deviation of body acceleration jerk signal in Z-axis (frequency domain).
+fBodyGyro-mean()-X: Mean of body gyroscope signal in X-axis (frequency domain).
+fBodyGyro-mean()-Y: Mean of body gyroscope signal in Y-axis (frequency domain).
+fBodyGyro-mean()-Z: Mean of body gyroscope signal in Z-axis (frequency domain).
+fBodyGyro-std()-X: Standard deviation of body gyroscope signal in X-axis (frequency domain).
+fBodyGyro-std()-Y: Standard deviation of body gyroscope signal in Y-axis (frequency domain).
+fBodyGyro-std()-Z: Standard deviation of body
+
+Measurements:
+Includes time-domain and frequency-domain signals (accelerometer and gyroscope readings) from the Samsung Galaxy S smartphone.
+The mean and standard deviation for each measurement.
+
+
+### 5. **Creating the Tidy Data Set**
+
+The final tidy dataset contains the average of each measurement for each combination of subject and activity. This dataset was created using the following steps:
+- Grouped by **Subject** and **Activity**.
+- Calculated the **mean** for each measurement variable.
+- The resulting dataset has 180 rows (for each combination of subject and activity) and 68 columns (1 for subject, 1 for activity, and 66 measurements).
+
+The tidy dataset was saved as `tidy_data.txt`.
+
+## Variables
+
+### 1. **Subject**: 
+The subject who performed the activity (integer, 1 to 30).
+
+### 2. **Activity**: 
+The activity performed by the subject. This is a factor variable with the following levels:
+- **WALKING**
+- **WALKING_UPSTAIRS**
+- **WALKING_DOWNSTAIRS**
+- **SITTING**
+- **STANDING**
+- **LAYING**
+
+### 3. **Feature Columns**:
+The 66 measurement variables that represent the mean and standard deviation of various sensor measurements. The columns are named based on the corresponding feature names from **features.txt**. Some examples of feature names include:
+- `tBodyAcc-mean-X`
+- `tBodyAcc-std-Y`
+- `fBodyGyro-mean-Z`
+- `tGravityAcc-mean-X`
+
+### 4. **Activity Labels**:
+The activity labels were mapped to the following descriptive names using the `activity_labels.txt` file:
+- **1** = WALKING
+- **2** = WALKING_UPSTAIRS
+- **3** = WALKING_DOWNSTAIRS
+- **4** = SITTING
+- **5** = STANDING
+- **6** = LAYING
+
+## Tidy Data Set
+
+The **tidy dataset** contains 180 rows and 68 columns:
+- 1 column for **Subject**
+- 1 column for **Activity**
+- 66 columns for the mean and standard deviation of the various measurements.
+
+The dataset was saved as `tidy_data.txt` and represents the average of each variable for each activity and each subject.
+
+## References
+
+- [UCI HAR Dataset](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
+- [Original source of the data](http://www.cpc.ncep.noaa.gov/data/indices/wksst8110.for)
+
+---
+
+
+## Tools Used
+R: The statistical programming language used for data manipulation and analysis.
+R packages:
+utils (for downloading and unzipping data)
+
+### How to use the tidy data:
+
+To use the tidy dataset:
+1. Load it into R using `read.table("tidy_data.txt")`.
+2. Perform analysis such as creating visualizations, building predictive models, or performing statistical analyses.
+
+---
+```
+
+```{}
+```

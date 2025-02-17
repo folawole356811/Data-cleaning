@@ -1,0 +1,54 @@
+---
+title: "Data cleaning Assignment"
+format: html
+editor: visual
+---
+
+```{r}
+
+library(dplyr)
+
+# Loading training data
+X_train <- read.table("UCI HAR Dataset/train/X_train.txt")
+y_train <- read.table("UCI HAR Dataset/train/y_train.txt")
+subject_train <- read.table("UCI HAR Dataset/train/subject_train.txt")
+
+# Loading test data
+X_test <- read.table("UCI HAR Dataset/test/X_test.txt")
+y_test <- read.table("UCI HAR Dataset/test/y_test.txt")
+subject_test <- read.table("UCI HAR Dataset/test/subject_test.txt")
+
+#Merging the training and the test sets to create one data set
+X <- rbind(X_train, X_test)  # Merge features
+y <- rbind(y_train, y_test)  # Merge activity labels
+subject <- rbind(subject_train, subject_test)  # Merge subject labels
+
+#Extracting onlythe measurements on the mean and standard deviation for each measurement
+features <- read.table("UCI HAR Dataset/features.txt")
+mean_std_features <- grep("-(mean|std)\\(\\)", features$V2)  # Identify mean and std features
+X <- X[, mean_std_features]  # Subset data for mean and std
+
+#Using descriptive activity names to name the activities in the data set
+activity_labels <- read.table("UCI HAR Dataset/activity_labels.txt")
+y$V1 <- factor(y$V1, levels = activity_labels$V1, labels = activity_labels$V2)
+
+#labeling the data set with descriptive variable names
+names(X) <- features$V2[mean_std_features]
+names(y) <- "Activity"
+names(subject) <- "Subject"
+
+#Creating a second, independent tidy data set with the average of each variable for each activity and each subject
+# Combine the data into one data frame
+final_data <- cbind(subject, y, X)
+
+# Using dplyr to calculate the average of each variable grouped by Activity and Subject
+tidy_data <- final_data %>%
+  group_by(Subject, Activity) %>%
+  summarise_all(list(mean = ~mean(.)))
+
+#Write the tidy data set to a file
+write.table(tidy_data, "tidy_data.txt", row.name = FALSE)
+```
+
+```{}
+```
